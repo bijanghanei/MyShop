@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace MyShop.Core.Models
 {
-    public class Product
+    public class Product:BaseModel
     {
-        public string Id { get; set; }
         [StringLength(20)]
         [DisplayName("Product Name")]
         public string Name { get; set; }
