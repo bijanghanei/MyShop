@@ -1,4 +1,5 @@
-﻿using MyShop.Core.Models;
+﻿using MyShop.Core.Contracts;
+using MyShop.Core.Models;
 using MyShop.DataAccess.InMemory;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace MyShop.WebUI.Controllers
 {
     public class ProductCategoryManagerController : Controller
     {
-        InMemoyRepository<ProductCategory> productCategoryRepository;
+        IRepository<ProductCategory> categoryRepository;
 
-        public ProductCategoryManagerController()
+        public ProductCategoryManagerController(IRepository<ProductCategory> categoryRepository)
         {
-            productCategoryRepository = new InMemoyRepository<ProductCategory>();
+            this.categoryRepository = categoryRepository;
         }
         //create
         public ActionResult Create()
@@ -25,19 +26,19 @@ namespace MyShop.WebUI.Controllers
         [HttpPost]
         public ActionResult Create(ProductCategory productCategory)
         {
-            productCategoryRepository.Insert(productCategory);
-            productCategoryRepository.Commit();
+            categoryRepository.Insert(productCategory);
+            categoryRepository.Commit();
             return RedirectToAction("Index");
         }
         // GET: ProductCategoryManager
         public ActionResult Index()
         {
-            List<ProductCategory> categories = productCategoryRepository.Collection().ToList();
+            List<ProductCategory> categories = categoryRepository.Collection().ToList();
             return View(categories);
         }
         public ActionResult Edit(string Id)
         {
-            ProductCategory productCategory = productCategoryRepository.Find(Id);
+            ProductCategory productCategory = categoryRepository.Find(Id);
             if(productCategory == null)
             {
                 return HttpNotFound();
@@ -50,7 +51,7 @@ namespace MyShop.WebUI.Controllers
         [HttpPost]
         public ActionResult Edit(ProductCategory productCategory)
         {
-            ProductCategory category = productCategoryRepository.Find(productCategory.Id);
+            ProductCategory category = categoryRepository.Find(productCategory.Id);
             if(category == null)
             {
                 return HttpNotFound();
@@ -60,7 +61,7 @@ namespace MyShop.WebUI.Controllers
                 if (ModelState.IsValid)
                 {
                     category.Category = productCategory.Category;
-                    productCategoryRepository.Commit();
+                    categoryRepository.Commit();
                     return RedirectToAction("Index");
                 }
                 else
@@ -73,7 +74,7 @@ namespace MyShop.WebUI.Controllers
 
         public ActionResult Delete(string Id) 
         {
-            ProductCategory category = productCategoryRepository.Find(Id);
+            ProductCategory category = categoryRepository.Find(Id);
             if (category == null)
             {
                 return HttpNotFound();
@@ -87,15 +88,15 @@ namespace MyShop.WebUI.Controllers
         [HttpPost]
         public ActionResult Delete(ProductCategory pc)
         {
-            ProductCategory category = productCategoryRepository.Find(pc.Id);
+            ProductCategory category = categoryRepository.Find(pc.Id);
             if(category == null)
             {
                 return HttpNotFound();
             }
             else
             {
-                productCategoryRepository.Delete(pc.Id);
-                productCategoryRepository.Commit();
+                categoryRepository.Delete(pc.Id);
+                categoryRepository.Commit();
                 return RedirectToAction("Index");
             }
         }
