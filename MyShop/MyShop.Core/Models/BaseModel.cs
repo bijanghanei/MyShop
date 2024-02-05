@@ -12,6 +12,7 @@ namespace MyShop.Core.Models
         public DateTime dateTime { get; set; }
         public BaseModel() {
             this.Id = Guid.NewGuid().ToString();
+            this.dateTime = DateTime.Now;
         }
     }
 }
