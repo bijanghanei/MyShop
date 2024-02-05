@@ -4,6 +4,7 @@ using MyShop.Core.ViewModels;
 using MyShop.DataAccess.InMemory;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -37,10 +38,15 @@ namespace MyShop.WebUI.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public ActionResult Create(Product product)
+        public ActionResult Create(Product product, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
+                if (file != null)
+                {
+                    product.Image = product.Id + Path.GetExtension(file.FileName);
+                    file.SaveAs(Server.MapPath("//Content//ProductImages//") + product.Image);
+                }
                 productRepository.Insert(product);
                 productRepository.Commit();
 
@@ -67,7 +73,7 @@ namespace MyShop.WebUI.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Edit(Product product) 
+        public ActionResult Edit(Product product, HttpPostedFileBase file) 
         {
             Product productToEdit = productRepository.Find(product.Id);
             if(productToEdit == null)
@@ -78,10 +84,15 @@ namespace MyShop.WebUI.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if(file != null)
+                    {
+                        productToEdit.Image = productToEdit.Id + Path.GetExtension(file.FileName);
+                        file.SaveAs(Server.MapPath("//Content//ProductImages//") + productToEdit.Id);
+                    }
+
                     productToEdit.Name = product.Name;
                     productToEdit.Description = product.Description;
                     productToEdit.Category = product.Category;
-                    productToEdit.Image = product.Image;
                     productToEdit.Price = product.Price;
                     productRepository.Commit();
                     return RedirectToAction("Index");
