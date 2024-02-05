@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyShopDataAccess.SQL
+namespace MyShop.DataAccess.SQL
 {
     public class DataContext:DbContext
     {
