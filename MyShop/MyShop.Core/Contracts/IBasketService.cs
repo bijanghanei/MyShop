@@ -7,9 +7,9 @@ namespace MyShop.Services
 {
     public interface IBasketService
     {
-        void AddToBasket(HttpContext httpContext, Product product);
-        List<BasketItemViewModel> GetBasketItems(HttpContext httpContext);
-        BasketSummaryViewModel GetBasketSummary(HttpContext httpContext);
-        void RemoveFromBasket(HttpContext httpContext, string basketItemId);
+        void AddToBasket(HttpContextBase httpContext, string productId);
+        List<BasketItemViewModel> GetBasketItems(HttpContextBase httpContext);
+        BasketSummaryViewModel GetBasketSummary(HttpContextBase httpContext);
+        void RemoveFromBasket(HttpContextBase httpContext, string basketItemId);
     }
 }
