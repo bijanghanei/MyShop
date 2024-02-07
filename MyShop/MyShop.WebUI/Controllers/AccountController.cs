@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using MyShop.Core.Models;
+using MyShop.Services;
 using MyShop.WebUI.Models;
 
 namespace MyShop.WebUI.Controllers
@@ -17,15 +19,12 @@ namespace MyShop.WebUI.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ICustomerService customerService;
 
-        public AccountController()
-        {
-        }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ICustomerService customerService)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            this.customerService = customerService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -155,6 +154,19 @@ namespace MyShop.WebUI.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    customerService.CreateCustomer(
+                            new Customer()
+                            {
+                                UserID = user.Id,
+                                FirstName = model.FirstName,
+                                LastName = model.LastName,
+                                Email = model.Email,
+                                City = model.City,
+                                State = model.State,
+                                ZipCode = model.ZipCode,
+                                Street = model.Street,
+                            }
+                        );
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

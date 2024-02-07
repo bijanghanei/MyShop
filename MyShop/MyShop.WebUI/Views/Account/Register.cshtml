@@ -31,6 +31,48 @@
             </div>
         </div>
         <div class="row">
+            @Html.LabelFor(m => m.UserID, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.UserID, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Street, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Street, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.City, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.State, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.State, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.ZipCode, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
             <div class="offset-md-2 col-md-10">
                 <input type="submit" value="Register" class="btn btn-outline-dark" />
             </div>
