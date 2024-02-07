@@ -139,6 +139,9 @@
     <Reference Include="System.Net.Http.WebRequest" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\BasketControllerTest.cs" />
+    <Compile Include="Mocks\MockHttpContext.cs" />
+    <Compile Include="Mocks\MockRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
@@ -149,9 +152,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MyShop.Core\MyShop.Core.csproj">
+      <Project>{c09e2e09-3349-4ce3-b222-eb645c6b152b}</Project>
+      <Name>MyShop.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyShop.Services\MyShop.Services.csproj">
+      <Project>{c58676ea-2e24-408c-974d-a998f652db28}</Project>
+      <Name>MyShop.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyShop.WebUI\MyShop.WebUI.csproj">
       <Project>{A26C138D-A4C3-47CA-813B-C2C8579DDDB2}</Project>
       <Name>MyShop.WebUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyShopDataAccess.SQL\MyShop.DataAccess.SQL.csproj">
+      <Project>{df9f502b-3a8f-4e99-b222-3a4ce3cd14ff}</Project>
+      <Name>MyShop.DataAccess.SQL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

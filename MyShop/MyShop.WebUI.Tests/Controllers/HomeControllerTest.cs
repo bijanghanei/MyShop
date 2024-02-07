@@ -1,4 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MyShop.Core.Contracts;
+using MyShop.Core.Models;
+using MyShop.Core.ViewModels;
 using MyShop.WebUI;
 using MyShop.WebUI.Controllers;
 using System;
@@ -13,16 +16,21 @@ namespace MyShop.WebUI.Tests.Controllers
     public class HomeControllerTest
     {
         [TestMethod]
-        public void Index()
+        public void IndexPageDoesReturnProducts()
         {
-        //    // Arrange
-        //    HomeController controller = new HomeController();
+            //    // Arrange
+            IRepository<Product> productRepository = new Mocks.MockRepository<Product>();
+            IRepository<ProductCategory> productCategoryRepository = new Mocks.MockRepository<ProductCategory>();
+            HomeController controller = new HomeController(productRepository,productCategoryRepository);
 
-        //    // Act
-        //    ViewResult result = controller.Index() as ViewResult;
+            productRepository.Insert(new Product());
+            
+            //    // Act
+            ViewResult result = (ViewResult) controller.Index();
+            var viewModel = (ProductListViewModel)result.ViewData.Model;
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
+            //    // Assert
+            Assert.AreEqual(1, viewModel.products.Count());
         }
 
         //[TestMethod]
