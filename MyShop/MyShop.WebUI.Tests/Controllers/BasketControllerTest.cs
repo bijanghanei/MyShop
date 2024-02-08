@@ -8,6 +8,7 @@ using MyShop.WebUI.Tests.Mocks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web.Mvc;
 
 namespace MyShop.WebUI.Tests.Controllers
@@ -24,10 +25,12 @@ namespace MyShop.WebUI.Tests.Controllers
             IRepository<Basket> basketRepo = new Mocks.MockRepository<Basket>();
             IRepository<Product> productRepo = new Mocks.MockRepository<Product>();
             IRepository<Order> orderRepo = new Mocks.MockRepository<Order>();
+            IRepository<Customer> custmerRepo = new Mocks.MockRepository<Customer>();
+
 
             IOrderService orderService = new OrderService(orderRepo);
             IBasketService basketService = new BasketService(basketRepo, productRepo);
-            BasketController controller = new BasketController(basketService,orderService);
+            BasketController controller = new BasketController(basketService,orderService, custmerRepo);
 
             controller.ControllerContext = new System.Web.Mvc.ControllerContext(httpContext,new System.Web.Routing.RouteData(),controller);
 
@@ -47,12 +50,14 @@ namespace MyShop.WebUI.Tests.Controllers
             IRepository<Basket> basketRepo = new Mocks.MockRepository<Basket>();
             IRepository<Product> productRepo = new Mocks.MockRepository<Product>();
             IRepository<Order> orderRepo = new Mocks.MockRepository<Order>();
+            IRepository<Customer> custmerRepo = new Mocks.MockRepository<Customer>();
+
 
             IOrderService orderService = new OrderService(orderRepo);
 
             IBasketService basketService = new BasketService(basketRepo, productRepo);
 
-            BasketController controller = new BasketController(basketService,orderService);
+            BasketController controller = new BasketController(basketService,orderService,custmerRepo);
 
             controller.ControllerContext = new System.Web.Mvc.ControllerContext(httpContext, new System.Web.Routing.RouteData(), controller);
 
@@ -98,13 +103,23 @@ namespace MyShop.WebUI.Tests.Controllers
             IRepository<Product> productRepo = new Mocks.MockRepository<Product>();
             IRepository<Basket> basketRepo = new Mocks.MockRepository<Basket>();
             IRepository<Order> orderRepo = new Mocks.MockRepository<Order>();
+            IRepository<Customer> custmerRepo = new Mocks.MockRepository<Customer>();
 
 
             IOrderService orderService = new OrderService(orderRepo);
             IBasketService basketService = new BasketService(basketRepo,productRepo);
 
+            custmerRepo.Insert(new Customer()
+            {
+                Id = "1",
+                Email = "amoo@gmail.com",
+                ZipCode = "123456789",
+            });
 
-            BasketController controller = new BasketController(basketService,orderService);
+            IPrincipal fakeUser = new GenericPrincipal(new GenericIdentity("amoo@gmail.com"), null);
+            httpConetext.User = fakeUser;
+
+            BasketController controller = new BasketController(basketService,orderService,custmerRepo);
 
             controller.ControllerContext = new System.Web.Mvc.ControllerContext(httpConetext,new System.Web.Routing.RouteData(),controller);
 
